@@ -1,0 +1,20 @@
+cluster:
+  installed: false
+  name: digitalocean
+  cloud:
+    provider: digitalocean
+    region: ams3
+    vpc: default
+    vpc_cidr: 10.8.0.0/20
+    domain: do.byteup.com
+    provisioner:
+      type: managed-kubernetes
+      version: 1.17
+      nodeSize: s-1vcpu-2gb
+      minNodes: 1
+      maxNodes: 2
+  addons:
+    nginx-ingress: true
+    cert-manager: true
+  apps:
+    - /kubernetes/apps/logging

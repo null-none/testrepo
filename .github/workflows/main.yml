@@ -1,0 +1,27 @@
+on:
+  push:
+    paths:
+      - '.github/workflows/**' # Trigger updates on Workflow changes
+      - '.cluster.dev/**' # Path to cluster declaration manifests
+      - '/kubernetes/apps/**' # ArgoCD application directories
+    branches:
+      - master
+jobs:
+  cluster_dev_clusters:
+    runs-on: ubuntu-latest
+    name: cluster.dev
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Reconcile Clusters
+      env:
+        DIGITALOCEAN_TOKEN: "86caee2cc3061fe5edb4ba817962d7ac1af50866b0c11709aff70a7237398542"
+        SPACES_ACCESS_KEY_ID: "4EU4E2ZQJTCTA46ZQ7FN"
+        SPACES_SECRET_ACCESS_KEY: "OU+OD94F0+sTSW92oY3cCs28+wxeYPqqDeDeyGdymn4"
+        CLUSTER_CONFIG_PATH: "./.cluster.dev/"
+        VERBOSE_LVL: DEBUG
+      id: reconcile
+      uses: shalb/cluster.dev@v0.2.0
+    - name: Get the Cluster Credentials
+      run: echo -e "\n\033[1;32m${{ steps.reconcile.outputs.ssh }}\n\033[1;32m${{ steps.reconcile.outputs.kubeconfig }}\n\033[1;32m${{ steps.reconcile.outputs.argocd }}"
+
