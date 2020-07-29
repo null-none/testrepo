@@ -6,7 +6,7 @@ cluster:
     region: ams3
     vpc: default
     vpc_cidr: 10.8.0.0/20
-    domain: do.byteup.com
+    domain: do.byte-up.company
     provisioner:
       type: managed-kubernetes
       version: 1.17
